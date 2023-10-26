@@ -6,7 +6,7 @@
 class RobotsManager::PIMPL
 {
 public:
-	static const int NUM_OF_ROBOTS = 10;
+	static const int NUM_OF_ROBOTS = 2;
 	static const int ORIGIN_OFFSET = 5;
 	static constexpr float ROBOT_SCALE = 0.025f;
 
@@ -43,6 +43,7 @@ void RobotsManager::LoadRobots()
 	SetRobotsState(FINDING_NEW_FRIENDS);
 }
 
+
 void RobotsManager::SetRobotsState(RobotsState robotsState = FINDING_NEW_FRIENDS)
 {
 	switch (robotsState)
@@ -69,11 +70,32 @@ void RobotsManager::PIMPL::LoadRobots()
 		int randomX = GetRandomIntNumber(0, Maze::MAZE_X_SIZE - 1);
 		int randomY = GetRandomIntNumber(0, Maze::MAZE_Y_SIZE - 1);
 
-		robot->robotModel->transform.SetPosition(
-			glm::vec3(ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * i),
-				ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * randomY),
-				1.0f)
-		);
+		if (i == 0)
+		{
+			robot->robotModel->transform.SetPosition(
+				glm::vec3(ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * 0),
+					ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * 1),
+					1.0f)
+			);
+		}
+		else if (i == 1)
+		{
+			robot->robotModel->transform.SetPosition(
+				glm::vec3(ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * 1),
+					ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * 1),
+					1.0f)
+			);
+		}
+		else
+		{
+			robot->robotModel->transform.SetPosition(
+				glm::vec3(ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * i),
+					ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * randomY),
+					1.0f)
+			);
+		}
+
+		
 		robot->robotModel->transform.SetScale(glm::vec3(ROBOT_SCALE));
 
 		robot->robotModel->modelId = std::string("Robot " + std::to_string(i));
@@ -101,6 +123,9 @@ void RobotsManager::PIMPL::AssignNewFriends()
 		int friendValue = GetRandomIntNumber(5, 10);
 
 		listOfRobots[i]->SetBestFriend(listOfRobots[i + 1], friendValue);
+		listOfRobots[i]->MoveTowardsFriend();
+
 		listOfRobots[i + 1]->SetBestFriend(listOfRobots[i], friendValue);
+		listOfRobots[i + 1]->MoveTowardsFriend();
 	}
 }

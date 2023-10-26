@@ -9,7 +9,9 @@ private:
 	Robot* destinationRobot;
 
 	int currentFriendValue;
-	int closeMinDistance = 3.0f;
+	int closeMinDistance = 10.0f;
+
+	glm::vec3 currentColor = glm::vec3(1.0f, 0.0f, 0.0f);
 
 public:
 	Robot();

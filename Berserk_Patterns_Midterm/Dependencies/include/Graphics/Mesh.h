@@ -23,6 +23,7 @@ public:
 	Mesh();
 	Mesh(std::vector<Vertex>& vertices, std::vector< unsigned int>& indices, Material* mat);
 	void DrawMesh(Shader& shader, bool loadMaterials = true, bool isWireFrame = false);
+	void UpdateVertices();
 	VertexArray VAO;
 
 private:

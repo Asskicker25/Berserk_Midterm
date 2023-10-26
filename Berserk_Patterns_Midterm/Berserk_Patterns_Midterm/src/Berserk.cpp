@@ -6,7 +6,7 @@ void Berserk::SetUp()
 {
 
 	physicsEngine.fixedStepTime = 0.01f;
-	//physicsEngine.gravity.y = -(0.01f);
+	physicsEngine.gravity.y = -(0.01f);
 
 #pragma region Camera
 	
