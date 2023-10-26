@@ -68,7 +68,7 @@ void RobotsManager::PIMPL::LoadRobots()
 		int randomY = GetRandomIntNumber(0, Maze::MAZE_Y_SIZE - 1);
 
 		robot->robotModel->transform.SetPosition(
-			glm::vec3(ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * randomX),
+			glm::vec3(ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * i),
 				ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * randomY),
 				1.0f)
 		);

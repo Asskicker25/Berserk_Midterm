@@ -148,6 +148,7 @@
     <ClCompile Include="src\EntityManager\EntityManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Maze\MazeColliderSize.h" />
     <ClInclude Include="src\Utilities\Random.h" />
     <ClInclude Include="src\Robot\RobotsManager.h" />
     <ClInclude Include="src\Robot\AbstractFactory\RobotFactory.h" />

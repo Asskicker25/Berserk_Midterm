@@ -74,6 +74,9 @@
     <ClInclude Include="src\Utilities\Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Maze\MazeColliderSize.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\Models\Berzerk_Level_1196819.txt" />
