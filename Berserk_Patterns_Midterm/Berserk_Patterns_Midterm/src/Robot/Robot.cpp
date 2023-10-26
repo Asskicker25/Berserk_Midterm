@@ -1,4 +1,5 @@
 #include "Robot.h"
+#include "../Maze/Maze.h"
 
 Robot::Robot()
 {
@@ -23,6 +24,11 @@ Robot* Robot::GetBestFriend()
 	return friendRobot;
 }
 
+void Robot::SetMaze(Maze* maze)
+{
+	this->maze = maze;
+}
+
 void Robot::MoveTowardsRobot(Robot* robot)
 {
 	destinationRobot = robot;
@@ -43,7 +49,19 @@ bool Robot::IsDestinationReached()
 
 	if (sqDistance <= (closeMinDistance * closeMinDistance))
 	{
-		return true;
+		glm::vec3 collPt;
+		glm::vec3 collNr;
+
+		if (maze->RayCastMazeWall(robotModel->transform.position, diff, closeMinDistance))
+		{
+			return false;
+		}
+
+		if (RayCast(robotModel->transform.position, diff, destinationRobot->robotPhyObj, closeMinDistance,
+			collPt, collNr))
+		{
+			return true;
+		}
 		//Debugger::Print
 	}
 

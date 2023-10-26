@@ -631,9 +631,11 @@ static bool CollisionAABBVsMeshOfTriangles(const Aabb& aabb,
 	return false;
 }
 
-static bool RayCastAABB(const glm::vec3& rayOrigin, const glm::vec3& rayDir,
+static bool RayCastAABB(const glm::vec3& rayOrigin, glm::vec3& rayDir,
 	const Aabb& aabb, float rayDistance, glm::vec3& collisionPt, glm::vec3& collisionNormal) 
 {
+	rayDir = glm::normalize(rayDir);
+
 	glm::vec3 invDir = 1.0f / rayDir;
 	glm::vec3 tMin = (aabb.min - rayOrigin) * invDir;
 	glm::vec3 tMax = (aabb.max - rayOrigin) * invDir;
@@ -662,9 +664,11 @@ static bool RayCastAABB(const glm::vec3& rayOrigin, const glm::vec3& rayDir,
 	return true;
 }
 
-static bool RayCastSphere(const glm::vec3& rayOrigin, const glm::vec3& rayDir, 
+static bool RayCastSphere(const glm::vec3& rayOrigin, glm::vec3& rayDir, 
 	Sphere* sphere, float rayDistance, glm::vec3& collisionPt, glm::vec3& collisionNormal) 
 {
+	rayDir = glm::normalize(rayDir);
+
 	glm::vec3 L = sphere->position - rayOrigin;
 	float tca = glm::dot(L, rayDir);
 	if (tca < 0.0f) 
@@ -705,10 +709,12 @@ static bool RayCastSphere(const glm::vec3& rayOrigin, const glm::vec3& rayDir,
 	return true;
 }
 
-static bool RayCastTriangle(const glm::vec3& rayOrigin, const glm::vec3& rayDirection, 
+static bool RayCastTriangle(const glm::vec3& rayOrigin, glm::vec3& rayDirection, 
 	const float& maxDistance, const Triangle& triangle,
 	glm::vec3& collisionPt, glm::vec3& collisionNr) 
 {
+	rayDirection = glm::normalize(rayDirection);
+
 	const float EPSILON = 0.000001f;
 
 	glm::vec3 edge1, edge2, h, s, q;
@@ -750,11 +756,13 @@ static bool RayCastTriangle(const glm::vec3& rayOrigin, const glm::vec3& rayDire
 	return false;
 }
 
-static bool RayCastMesh(const glm::vec3& rayOrigin, const glm::vec3& rayDirection,
+static bool RayCastMesh(const glm::vec3& rayOrigin, glm::vec3& rayDirection,
 	const glm::mat4& transformMatrix, const float& maxDistance,
 	const std::vector <std::vector <Triangle>>& triangles,
 	glm::vec3& collisionPt, glm::vec3& collisionNr)
 {
+	rayDirection = glm::normalize(rayDirection);
+
 	for (size_t i = 0; i < triangles.size(); i++)
 	{
 		const std::vector<Triangle>& triangleList = triangles[i];

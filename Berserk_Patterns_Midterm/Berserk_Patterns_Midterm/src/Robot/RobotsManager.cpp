@@ -11,6 +11,7 @@ public:
 	static constexpr float ROBOT_SCALE = 0.025f;
 
 	std::vector<Robot*> listOfRobots;
+	Maze* maze;
 	//std::vector<Robot*> shuffledListOfRobots;
 
 	RobotFactory robotFactory;
@@ -43,6 +44,10 @@ void RobotsManager::LoadRobots()
 	SetRobotsState(FINDING_NEW_FRIENDS);
 }
 
+void RobotsManager::SetMaze(Maze* maze)
+{
+	pimpl->maze = maze;
+}
 
 void RobotsManager::SetRobotsState(RobotsState robotsState = FINDING_NEW_FRIENDS)
 {
@@ -99,6 +104,8 @@ void RobotsManager::PIMPL::LoadRobots()
 		robot->robotModel->transform.SetScale(glm::vec3(ROBOT_SCALE));
 
 		robot->robotModel->modelId = std::string("Robot " + std::to_string(i));
+
+		robot->SetMaze(maze);
 
 		entityManager->AddEntity("Robot " + std::to_string(i), robot);
 

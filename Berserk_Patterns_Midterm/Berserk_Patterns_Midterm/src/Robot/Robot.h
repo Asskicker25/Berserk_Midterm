@@ -1,12 +1,15 @@
 #pragma once
 
 #include "RobotBase.h"
+#include "../Maze/Maze.h"
 
 class Robot : public RobotBase
 {
 private:
 	Robot* friendRobot;
 	Robot* destinationRobot;
+
+	Maze* maze;
 
 	int currentFriendValue;
 	int closeMinDistance = 10.0f;
@@ -20,6 +23,7 @@ public:
 	void SetBestFriend(Robot* robot, int& friendValue);
 	Robot* GetBestFriend();
 
+	void SetMaze(Maze* maze);
 	void MoveTowardsRobot(Robot* robot);
 	void MoveTowardsFriend();
 

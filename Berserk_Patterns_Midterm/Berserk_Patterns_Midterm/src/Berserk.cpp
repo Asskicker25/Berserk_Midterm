@@ -28,12 +28,12 @@ void Berserk::SetUp()
 #pragma endregion
 
 
-
 #pragma region Entities
 
 	Maze* maze = new Maze();
 
 	RobotsManager* robotManager = new RobotsManager();
+	robotManager->SetMaze(maze);
 	robotManager->AssignEntityManager(entityManager);
 	robotManager->LoadRobots();
 

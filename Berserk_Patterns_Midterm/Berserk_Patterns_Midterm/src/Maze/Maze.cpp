@@ -5,6 +5,23 @@ Maze::Maze()
 	mazeModel = new Model();
 }
 
+bool Maze::RayCastMazeWall(glm::vec3& origin, glm::vec3& direction, float rayDist)
+{
+	for (int i = 0; i < colliders.size(); i++)
+	{
+		if (i == 17)
+		{
+
+		}
+		glm::vec3 collPt, collNr;
+		if (RayCast(origin, direction, colliders[i], rayDist, collPt, collNr))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void Maze::Start()
 {
 }

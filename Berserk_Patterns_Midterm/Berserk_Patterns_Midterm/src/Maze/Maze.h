@@ -18,6 +18,7 @@ public:
 	std::vector<PhysicsObject*> colliders;
 
 	Maze();
+	bool RayCastMazeWall(glm::vec3& origin, glm::vec3& direction, float rayDist);
 
 	// Inherited via Entity
 	void Start() override;
