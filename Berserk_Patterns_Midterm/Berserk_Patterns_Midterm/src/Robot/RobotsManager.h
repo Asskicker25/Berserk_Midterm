@@ -22,5 +22,10 @@ public:
 	void SetMaze(Maze* maze);
 	void LoadRobots();
 	void SetRobotsState(RobotsState robotsState);
+
+	void Update(float deltaTime);
+
+	void CheckIfAllFriendsFound();
+
 };
 

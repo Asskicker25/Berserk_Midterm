@@ -1,6 +1,5 @@
 #include "Berserk.h"
 #include "Maze/Maze.h"
-#include "Robot/RobotsManager.h"
 
 void Berserk::SetUp()
 {
@@ -32,7 +31,7 @@ void Berserk::SetUp()
 
 	Maze* maze = new Maze();
 
-	RobotsManager* robotManager = new RobotsManager();
+	robotManager = new RobotsManager();
 	robotManager->SetMaze(maze);
 	robotManager->AssignEntityManager(entityManager);
 	robotManager->LoadRobots();
@@ -60,6 +59,7 @@ void Berserk::PostRender()
 {
 	entityManager.Update(deltaTime);
 	physicsEngine.Update(deltaTime);
+	robotManager->Update(deltaTime);
 }
 
 void Berserk::ProcessInput(GLFWwindow* window)

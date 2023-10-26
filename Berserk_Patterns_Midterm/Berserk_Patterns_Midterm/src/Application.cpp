@@ -7,7 +7,7 @@ int main()
 
 	Debugger::print = true;
 
-	berserkWindow.InitializeWindow(800, 600);
+	berserkWindow.InitializeWindow(1366, 728);
 
 	berserkWindow.Render();
 

@@ -9,6 +9,9 @@ Robot::Robot()
 	friendRobot = nullptr;
 	destinationRobot = nullptr;
 	currentFriendValue = 0;
+	gameShape = new GameShapeIndicator();
+
+	currentGame = None;
 }
 
 void Robot::SetBestFriend(Robot* robot, int& friendValue)
@@ -23,6 +26,25 @@ void Robot::SetBestFriend(Robot* robot, int& friendValue)
 Robot* Robot::GetBestFriend()
 {
 	return friendRobot;
+}
+
+void Robot::UpdateIndicatorPosition()
+{
+	switch (currentGame)
+	{
+	case RobotGame::None:
+		break;
+	case RobotGame::Euchre:
+		gameShape->eucherGameModel->transform.SetPosition(
+			robotModel->transform.position + indicatorOffset
+		);
+		break;
+	case RobotGame::ExplodingKittens:
+		gameShape->explodingKittensGameModel->transform.SetPosition(
+			robotModel->transform.position + indicatorOffset
+		);
+		break;
+	}
 }
 
 void Robot::GetPathPoints(std::vector<glm::vec2>& pathPoints)
@@ -49,18 +71,21 @@ void Robot::SetMaze(Maze* maze)
 void Robot::MoveTowardsRobot(Robot* robot)
 {
 	destinationRobot = robot;
+	isReachedDestination = false;
 	GetPathPoints(pathPoints);
 }
 
 void Robot::MoveTowardsFriend()
 {
 	MoveTowardsRobot(friendRobot);
-
 }
 
 bool Robot::IsDestinationReached()
 {
-	if (destinationRobot == nullptr) return false;
+	if (destinationRobot == nullptr || isReachedDestination)
+	{
+		return false;
+	}
 
 	glm::vec3 diff = destinationRobot->robotModel->transform.position - robotModel->transform.position;
 
@@ -136,22 +161,50 @@ const int& Robot::GetFriendValue()
 
 void Robot::Start()
 {
+
 }
 
-float t = 0;
+void Robot::SetCurrentGame(RobotGame game)
+{
+	currentGame = game;
+
+	switch (currentGame)
+	{
+	case Euchre:
+		gameShape->eucherGameModel->isActive = true;
+		break;
+	case ExplodingKittens:
+		gameShape->explodingKittensGameModel->isActive = true;
+		break;
+	}
+}
+
 void Robot::Update(float deltaTime)
 {
-	t += deltaTime;
-	if (t > 1.0f)
-	{
-		GetPathPoints(pathPoints);
-		t = 0;
-	}
-	UpdateVelocity(deltaTime);
 	if (IsDestinationReached())
 	{
+		isReachedDestination = true;
 		ChangeColor(glm::vec3(0.0f, 0.0f, 1.0f));
 	}
+
+	if (!isReachedDestination)
+	{
+		timeStep += deltaTime;
+		if (timeStep > timerInterval)
+		{
+			GetPathPoints(pathPoints);
+			timeStep = 0;
+		}
+		UpdateVelocity(deltaTime);
+	}
+	else
+	{
+		robotPhyObj->velocity = glm::vec3(0.0f);
+		timeStep = 0;
+	}
+	
+	UpdateIndicatorPosition();
+	
 }
 
 void Robot::RemoveFromRenderer(Renderer& renderer)
@@ -166,7 +219,7 @@ void Robot::AddToRendererAndPhysics(Renderer& renderer, Shader* shader, PhysicsE
 {
 	Debugger::Print("Robot loaded");
 	robotModel->LoadModel("Assets/Models/Robot_Eye_CentrePivot.ply");
-	robotPhyObj->Initialize(robotModel, AABB, DYNAMIC, SOLID);
+	robotPhyObj->Initialize(robotModel, AABB, DYNAMIC, TRIGGER);
 
 	robotPhyObj->velocity.y = 0.0f;
 

@@ -73,7 +73,7 @@ void Mesh::DrawMesh(Shader& shader, bool loadMaterials, bool isWireframe)
 void Mesh::UpdateVertices()
 {
 	VAO.Bind();
-	VBO.Setup(vertices.size() * sizeof(Vertex), &vertices[0]);
+	VBO.UpdateVertexData(vertices.size() * sizeof(Vertex), &vertices[0]);
 	VAO.AddBuffer(VBO, layout);
 	VAO.UnBind();
 }

@@ -2,6 +2,7 @@
 
 #include <Graphics/ApplicationWindow.h>
 #include "EntityManager/EntityManager.h"
+#include "Robot/RobotsManager.h"
 
 class Berserk : public ApplicationWindow
 {
@@ -11,6 +12,8 @@ private:
 public:
 	EntityManager entityManager;
 	PhysicsEngine physicsEngine;
+
+	RobotsManager* robotManager = nullptr;
 
 	// Inherited via ApplicationWindow
 	void SetUp() override;

@@ -19,6 +19,7 @@ public:
 
 	void LoadRobots();
 	void AssignNewFriends();
+	void AssignGamesToRobot();
 };
 
 enum RobotsManager::RobotsState
@@ -51,10 +52,48 @@ void RobotsManager::SetMaze(Maze* maze)
 
 void RobotsManager::SetRobotsState(RobotsState robotsState = FINDING_NEW_FRIENDS)
 {
+	this->robotsState = robotsState;
 	switch (robotsState)
 	{
 	case FINDING_NEW_FRIENDS:
 		pimpl->AssignNewFriends();
+		break;
+	case PLAY_GAME:
+		pimpl->AssignGamesToRobot();
+		break;
+	case GIVE_GIFTS:
+		break;
+	case ALONE:
+		break;
+	}
+	
+}
+
+
+void RobotsManager::CheckIfAllFriendsFound()
+{
+	bool found = true;
+	for (Robot* robot : pimpl->listOfRobots)
+	{
+		if (!robot->isReachedDestination)
+		{
+			found = false;
+			break;
+		}
+	}
+
+	if (found)
+	{
+		SetRobotsState(PLAY_GAME);
+	}
+}
+
+void RobotsManager::Update(float deltaTime)
+{
+	switch (robotsState)
+	{
+	case FINDING_NEW_FRIENDS:
+		CheckIfAllFriendsFound();
 		break;
 	case PLAY_GAME:
 		break;
@@ -105,7 +144,6 @@ void RobotsManager::PIMPL::LoadRobots()
 				ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * randomY),
 				1.0f)
 		);
-
 		
 		robot->robotModel->transform.SetScale(glm::vec3(ROBOT_SCALE));
 
@@ -114,6 +152,7 @@ void RobotsManager::PIMPL::LoadRobots()
 		robot->SetMaze(maze);
 
 		entityManager->AddEntity("Robot " + std::to_string(i), robot);
+		entityManager->AddEntity("Indicator " + std::to_string(i), (Entity*)robot->gameShape);
 
 		listOfRobots.push_back(robot);
 
@@ -141,4 +180,30 @@ void RobotsManager::PIMPL::AssignNewFriends()
 		listOfRobots[i + 1]->SetBestFriend(listOfRobots[i], friendValue);
 		listOfRobots[i + 1]->MoveTowardsFriend();
 	}
+}
+
+void RobotsManager::PIMPL::AssignGamesToRobot()
+{
+	listOfRobots[0]->SetCurrentGame(RobotGame::Euchre) ;
+	listOfRobots[2]->SetCurrentGame(RobotGame::ExplodingKittens);
+
+	int eucherCount = 0;
+
+	for (int i = 1; i < listOfRobots.size(); i++)
+	{
+		if (i == 2) continue;
+
+		if (eucherCount < 3)
+		{
+			listOfRobots[i]->SetCurrentGame(RobotGame::Euchre);
+			listOfRobots[i]->MoveTowardsRobot(listOfRobots[0]);
+			eucherCount++;
+
+			continue;
+		}
+
+		listOfRobots[i]->SetCurrentGame(RobotGame::ExplodingKittens);
+		listOfRobots[i]->MoveTowardsRobot(listOfRobots[2]);
+	}
+
 }
