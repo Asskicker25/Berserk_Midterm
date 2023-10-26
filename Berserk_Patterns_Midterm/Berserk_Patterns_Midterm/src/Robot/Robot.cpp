@@ -26,6 +26,11 @@ void Robot::AddToRendererAndPhysics(Renderer& renderer, Shader* shader, PhysicsE
 {
 	Debugger::Print("Robot loaded");
 	robotModel->LoadModel("Assets/Models/Robot_Eye_CentrePivot.ply");
+	robotPhyObj->Initialize(robotModel, AABB, DYNAMIC, SOLID);
+
+	robotPhyObj->velocity.y = -1.0f;
+
+	physicsEngine.AddPhysicsObject(robotPhyObj);
 
 	renderer.AddModel(robotModel, shader);
 }

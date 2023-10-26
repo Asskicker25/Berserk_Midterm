@@ -32,7 +32,9 @@ void Maze::AddToRendererAndPhysics(Renderer& renderer, Shader* shader, PhysicsEn
 	cube1->transform.SetPosition(glm::vec3(0.0f - 0.5f, 0.0f - 0.5f, 1.0f));
 	cube1->transform.SetScale(glm::vec3(100.0f, 1.0f, 1.0f));
 
-
+	PhysicsObject* cubePhy1 = new PhysicsObject();
+	cubePhy1->Initialize(cube1, AABB, STATIC, SOLID);
+	physicsEngine.AddPhysicsObject(cubePhy1);
 	//Top Border
 	/*Model* cube2 = new Model();
 	cube2 = &(*cube1);
