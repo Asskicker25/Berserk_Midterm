@@ -19,7 +19,6 @@ private:
 
 	Maze* maze;
 
-
 	int currentFriendValue;
 	int closeMinDistance = 3.0f;
 	int currentPathIndex = 0;
@@ -39,15 +38,19 @@ private:
 	void UpdateIndicatorPosition();
 
 public:
+	glm::vec3 robotInitSpawnPos = glm::vec3(0.0f, 0.0f, 0.0f);
+
 	GameShapeIndicator* gameShape =  nullptr;
 
 	bool isReachedDestination = false;
+	bool isGiftGiven = false;
 
 	Robot();
 
 	const int& GetFriendValue();
 	void SetBestFriend(Robot* robot, int& friendValue);
 	Robot* GetBestFriend();
+	Robot* GetDestinationRobot();
 
 	void GetPathPoints(std::vector<glm::vec2>& pathPoints);
 
@@ -56,6 +59,8 @@ public:
 	void MoveTowardsFriend();
 
 	void SetCurrentGame(RobotGame game);
+	void UpdateRobotGiftReceived(Robot* receivedFrom);
+
 
 	bool IsDestinationReached();
 

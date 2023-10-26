@@ -11,6 +11,11 @@ private:
 	class PIMPL;
 	PIMPL* pimpl;
 
+	float timeStep = 0;
+
+	float intervalBetweenStates = 2.0f;
+
+
 public:
 	enum RobotsState;
 
@@ -25,7 +30,9 @@ public:
 
 	void Update(float deltaTime);
 
-	void CheckIfAllFriendsFound();
+	void CheckIfAllFriendsFound(float deltaTime);
+	void CheckIfAllRobotsGameOver(float deltaTime);
+	void CheckIfGiftGiven(float deltaTime);
 
 };
 

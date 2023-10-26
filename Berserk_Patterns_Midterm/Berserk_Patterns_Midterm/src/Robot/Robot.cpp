@@ -1,5 +1,6 @@
 #include "Robot.h"
 #include "../Maze/Maze.h"
+#include "../Utilities/Random.h"
 
 Robot::Robot()
 {
@@ -26,6 +27,11 @@ void Robot::SetBestFriend(Robot* robot, int& friendValue)
 Robot* Robot::GetBestFriend()
 {
 	return friendRobot;
+}
+
+Robot* Robot::GetDestinationRobot()
+{
+	return destinationRobot;
 }
 
 void Robot::UpdateIndicatorPosition()
@@ -184,7 +190,7 @@ void Robot::Update(float deltaTime)
 	if (IsDestinationReached())
 	{
 		isReachedDestination = true;
-		ChangeColor(glm::vec3(0.0f, 0.0f, 1.0f));
+		//ChangeColor(glm::vec3(0.0f, 0.0f, 1.0f));
 	}
 
 	if (!isReachedDestination)
@@ -230,4 +236,14 @@ void Robot::AddToRendererAndPhysics(Renderer& renderer, Shader* shader, PhysicsE
 	//ChangeColor(glm::vec3(0.0f, 0.0f, 1.0f));
 
 	renderer;
+}
+
+void Robot::UpdateRobotGiftReceived(Robot* receivedFrom)
+{
+	int friendValue = GetRandomIntNumber(5, 10);
+
+	if (friendValue > currentFriendValue)
+	{
+		this->friendRobot = receivedFrom;
+	}
 }

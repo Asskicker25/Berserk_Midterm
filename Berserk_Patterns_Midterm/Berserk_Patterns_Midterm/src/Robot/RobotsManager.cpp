@@ -13,6 +13,11 @@ public:
 	std::vector<Robot*> listOfRobots;
 	Maze* maze;
 	//std::vector<Robot*> shuffledListOfRobots;
+	glm::vec3 defaultColor = glm::vec3(1.0f, 0.0f, 0.0f);
+	glm::vec3 newFriendReached = glm::vec3(0.0f, 0.0f, 1.0f);
+	glm::vec3 reachedGameArea = glm::vec3(0.0f, 1.0f, 1.0f);
+	glm::vec3 giftStateColor = glm::vec3(1.0f, 1.0f, 0.0f);
+	glm::vec3 afterGiftStateColor = glm::vec3(1.0f, 1.f, 1.0f);
 
 	RobotFactory robotFactory;
 	EntityManager* entityManager;
@@ -20,6 +25,7 @@ public:
 	void LoadRobots();
 	void AssignNewFriends();
 	void AssignGamesToRobot();
+	void AssignGiftsForRobots();
 };
 
 enum RobotsManager::RobotsState
@@ -62,29 +68,10 @@ void RobotsManager::SetRobotsState(RobotsState robotsState = FINDING_NEW_FRIENDS
 		pimpl->AssignGamesToRobot();
 		break;
 	case GIVE_GIFTS:
+		pimpl->AssignGiftsForRobots();
 		break;
 	case ALONE:
 		break;
-	}
-	
-}
-
-
-void RobotsManager::CheckIfAllFriendsFound()
-{
-	bool found = true;
-	for (Robot* robot : pimpl->listOfRobots)
-	{
-		if (!robot->isReachedDestination)
-		{
-			found = false;
-			break;
-		}
-	}
-
-	if (found)
-	{
-		SetRobotsState(PLAY_GAME);
 	}
 }
 
@@ -93,15 +80,110 @@ void RobotsManager::Update(float deltaTime)
 	switch (robotsState)
 	{
 	case FINDING_NEW_FRIENDS:
-		CheckIfAllFriendsFound();
+		CheckIfAllFriendsFound(deltaTime);
 		break;
 	case PLAY_GAME:
+		CheckIfAllRobotsGameOver(deltaTime);
 		break;
 	case GIVE_GIFTS:
+		CheckIfGiftGiven(deltaTime);
 		break;
 	case ALONE:
 		break;
 	}
+}
+
+void RobotsManager::CheckIfAllFriendsFound(float deltaTime)
+{
+	bool found = true;
+	for (Robot* robot : pimpl->listOfRobots)
+	{
+		if (!robot->isReachedDestination)
+		{
+			found = false;
+		}
+		else
+		{
+			robot->ChangeColor(pimpl->newFriendReached);
+		}
+	}
+
+	if (found)
+	{
+		timeStep += deltaTime;
+
+		if (timeStep > intervalBetweenStates)
+		{
+			for (Robot* robot : pimpl->listOfRobots)
+			{
+				robot->ChangeColor(pimpl->defaultColor);
+			}
+
+			timeStep = 0;
+			SetRobotsState(PLAY_GAME);
+		}
+		
+	}
+}
+
+void RobotsManager::CheckIfAllRobotsGameOver(float deltaTime)
+{
+	bool found = true;
+
+	for (Robot* robot : pimpl->listOfRobots)
+	{
+		if (robot->isReachedDestination)
+		{
+			robot->ChangeColor(pimpl->reachedGameArea);
+		}
+	}
+
+	for (int i = 2; i < pimpl->listOfRobots.size(); i++)
+	{
+		if (!pimpl->listOfRobots[i]->isReachedDestination)
+		{
+			found = false;
+			break;
+		}
+	}
+
+	if (found)
+	{
+		timeStep += deltaTime;
+		if (timeStep > intervalBetweenStates * 2.0f)
+		{
+			timeStep = 0;
+			SetRobotsState(GIVE_GIFTS);
+		}
+	}
+}
+
+void RobotsManager::CheckIfGiftGiven(float deltaTime)
+{
+
+	for (Robot* robot : pimpl->listOfRobots)
+	{
+		if (robot->isReachedDestination)
+		{
+			if (!robot->isGiftGiven)
+			{
+				robot->isGiftGiven = true;
+				robot->GetDestinationRobot()->UpdateRobotGiftReceived(robot);
+				robot->MoveTowardsFriend();
+				robot->ChangeColor(pimpl->afterGiftStateColor);
+			}
+		}
+	}
+
+	/*if (found)
+	{
+		timeStep += deltaTime;
+		if (timeStep > intervalBetweenStates * 2.0f)
+		{
+			timeStep = 0;
+			SetRobotsState(GIVE_GIFTS);
+		}
+	}*/
 }
 
 void RobotsManager::PIMPL::LoadRobots()
@@ -139,11 +221,11 @@ void RobotsManager::PIMPL::LoadRobots()
 			);
 		}*/
 
-		robot->robotModel->transform.SetPosition(
-			glm::vec3(ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * i),
-				ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * randomY),
-				1.0f)
-		);
+		robot->robotInitSpawnPos = glm::vec3(ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * i),
+			ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * randomY),
+			1.0f);
+
+		robot->robotModel->transform.SetPosition(robot->robotInitSpawnPos);
 		
 		robot->robotModel->transform.SetScale(glm::vec3(ROBOT_SCALE));
 
@@ -207,3 +289,32 @@ void RobotsManager::PIMPL::AssignGamesToRobot()
 	}
 
 }
+
+//0 2 //1 3 //2 4 //3 5 //4 6 //5 7 //6 8 //7 9 //8 0 // 9 1
+void RobotsManager::PIMPL::AssignGiftsForRobots()
+{
+
+	for (int i = 0; i < listOfRobots.size(); i++)
+	{
+
+		listOfRobots[i]->gameShape->eucherGameModel->isActive = false;
+		listOfRobots[i]->gameShape->explodingKittensGameModel->isActive = false;
+
+		listOfRobots[i]->ChangeColor(giftStateColor);
+
+		if (i + 2 >= listOfRobots.size())
+		{
+			listOfRobots[i]->MoveTowardsRobot(listOfRobots[i - (listOfRobots.size() - 2)]);
+
+			std::cout << " Robot " << std::to_string(i) << " : " << std::to_string(i - (listOfRobots.size() - 2)) << std::endl;
+			continue;
+		}
+
+		listOfRobots[i]->MoveTowardsRobot(listOfRobots[i + 2]);
+		std::cout << " Robot " << std::to_string(i) << " : " << std::to_string(i + 2) << std::endl;
+
+		continue;
+	}
+}
+
+	 
