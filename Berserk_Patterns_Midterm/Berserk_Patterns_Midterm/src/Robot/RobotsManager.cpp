@@ -4,7 +4,7 @@
 class RobotsManager::PIMPL
 {
 public:
-	static const int NUM_OF_ROBOTS = 9;
+	static const int NUM_OF_ROBOTS = 10;
 
 	std::vector<Robot*> listOfRobots;
 
@@ -35,7 +35,7 @@ void RobotsManager::PIMPL::LoadRobots()
 	{
 		robot = (Robot*)robotFactory.CreateRobot();
 
-		robot->robotModel->transform.SetPosition(glm::vec3(5.0f + (5.0f * i), 10.0f + (5.0f * i), 5.0f));
+		robot->robotModel->transform.SetPosition(glm::vec3(5.0f + (10.0f * i), 5.0f  + (10.0f * i), 1.0f));
 		robot->robotModel->transform.SetScale(glm::vec3(0.05f));
 
 		robot->robotModel->modelId = std::string("Robot " + std::to_string(i));
