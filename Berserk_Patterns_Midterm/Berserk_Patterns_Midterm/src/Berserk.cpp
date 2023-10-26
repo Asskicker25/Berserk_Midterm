@@ -41,8 +41,7 @@ void Berserk::SetUp()
 
 #pragma region EntityManagerInit
 
-	entityManager.AddToRenderer(renderer, &defShader);
-	entityManager.AddToPhysics(physicsEngine);
+	entityManager.AddToRendererAndPhysics(renderer, &defShader, physicsEngine);
 	entityManager.Start();
 
 #pragma endregion

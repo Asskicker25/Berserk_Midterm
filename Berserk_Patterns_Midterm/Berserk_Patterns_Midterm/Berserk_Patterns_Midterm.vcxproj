@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Robot\RobotBase.cpp" />
     <ClCompile Include="src\Robot\RobotsManager.cpp" />
     <ClCompile Include="src\Robot\AbstractFactory\RobotFactory.cpp" />
     <ClCompile Include="src\Maze\Maze.cpp" />
@@ -163,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Models\Berzerk_Level_Ouput.ply" />
+    <None Include="Assets\Models\CubeWithLeftPivot.fbx" />
     <None Include="Assets\Models\DefaultSphere.fbx" />
     <None Include="Assets\Models\Robot_Eye_Centre.ply" />
     <None Include="Assets\Models\Robot_Eye_CentrePivot.ply" />

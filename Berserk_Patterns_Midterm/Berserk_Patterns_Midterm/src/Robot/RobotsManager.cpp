@@ -11,16 +11,25 @@ public:
 	static constexpr float ROBOT_SCALE = 0.025f;
 
 	std::vector<Robot*> listOfRobots;
+	//std::vector<Robot*> shuffledListOfRobots;
 
 	RobotFactory robotFactory;
 	EntityManager* entityManager;
 
 	void LoadRobots();
+	void AssignNewFriends();
 };
 
-RobotsManager::RobotsManager() : pimpl { new PIMPL()}
+enum RobotsManager::RobotsState
 {
+	FINDING_NEW_FRIENDS,
+	PLAY_GAME,
+	GIVE_GIFTS,
+	ALONE
+};
 
+RobotsManager::RobotsManager() : pimpl { new PIMPL() }, robotsState { FINDING_NEW_FRIENDS }
+{
 }
 
 void RobotsManager::AssignEntityManager(EntityManager& entityManager)
@@ -31,6 +40,21 @@ void RobotsManager::AssignEntityManager(EntityManager& entityManager)
 void RobotsManager::LoadRobots()
 {
 	pimpl->LoadRobots();
+}
+
+void RobotsManager::SetRobotsState(RobotsState& robotsState)
+{
+	switch (robotsState)
+	{
+	case FINDING_NEW_FRIENDS:
+		break;
+	case PLAY_GAME:
+		break;
+	case GIVE_GIFTS:
+		break;
+	case ALONE:
+		break;
+	}
 }
 
 void RobotsManager::PIMPL::LoadRobots()
@@ -60,4 +84,18 @@ void RobotsManager::PIMPL::LoadRobots()
 	}
 
 	delete robot;
+}
+
+void RobotsManager::PIMPL::AssignNewFriends()
+{
+	//shuffledListOfRobots = listOfRobots;
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	//std::shuffle(shuffledListOfRobots.begin(), shuffledListOfRobots.end(), gen);
+	std::shuffle(listOfRobots.begin(), listOfRobots.end(), gen);
+
+	for (int i = 0; i < NUM_OF_ROBOTS; i++)
+	{
+
+	}
 }

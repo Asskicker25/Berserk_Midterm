@@ -39,6 +39,9 @@
     <ClCompile Include="src\Robot\RobotsManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Robot\RobotBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Berserk.h">
@@ -82,5 +85,6 @@
     <None Include="res\Shader\Shader.shader" />
     <None Include="Assets\Models\Robot_Eye_Centre.ply" />
     <None Include="Assets\Models\Robot_Eye_CentrePivot.ply" />
+    <None Include="Assets\Models\CubeWithLeftPivot.fbx" />
   </ItemGroup>
 </Project>

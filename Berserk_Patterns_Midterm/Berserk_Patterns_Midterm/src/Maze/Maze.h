@@ -17,9 +17,8 @@ public:
 	// Inherited via Entity
 	void Start() override;
 	void Update() override;
-	void AddToRenderer(Renderer& renderer, Shader* shader) override;
-	void AddToPhysics(PhysicsEngine& physicsEngine) override;
 	void RemoveFromRenderer(Renderer& renderer) override;
 	void RemoveFromPhysics(PhysicsEngine& physicsEngine) override;
+	void AddToRendererAndPhysics(Renderer& renderer, Shader* shader, PhysicsEngine& physicsEngine) override;
 };
 

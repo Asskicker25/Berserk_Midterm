@@ -11,8 +11,14 @@ private:
 	PIMPL* pimpl;
 
 public:
+	enum RobotsState;
+
+	RobotsState robotsState;
+
 	RobotsManager();
+
 	void AssignEntityManager(EntityManager& entityManager);
 	void LoadRobots();
+	void SetRobotsState(RobotsState& robotsState);
 };
 

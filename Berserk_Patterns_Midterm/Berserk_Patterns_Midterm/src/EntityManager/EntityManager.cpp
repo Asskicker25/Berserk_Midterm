@@ -11,6 +11,17 @@ void EntityManager::RemoveEntity(const std::string& entityId)
 	listOfEntities.erase(entityId);
 }
 
+void EntityManager::AddToRendererAndPhysics(Renderer& renderer, Shader* shader, PhysicsEngine& physicsEngine)
+{
+	this->renderer = renderer;
+	this->physicsEngine = physicsEngine;
+
+	for (it = listOfEntities.begin(); it != listOfEntities.end(); ++it)
+	{
+		it->second->AddToRendererAndPhysics(renderer, shader,physicsEngine);
+	}
+}
+
 void EntityManager::Start()
 {
 	for (it = listOfEntities.begin(); it != listOfEntities.end(); ++it)
@@ -36,22 +47,3 @@ void EntityManager::Destroy()
 	}
 }
 
-void EntityManager::AddToRenderer(Renderer& renderer, Shader* shader)
-{
-	this->renderer = renderer;
-
-	for (it = listOfEntities.begin(); it != listOfEntities.end(); ++it)
-	{
-		it->second->AddToRenderer(renderer, shader);
-	}
-}
-
-void EntityManager::AddToPhysics(PhysicsEngine& physicsEngine)
-{
-	this->physicsEngine = physicsEngine;
-
-	for (it = listOfEntities.begin(); it != listOfEntities.end(); ++it)
-	{
-		it->second->AddToPhysics(physicsEngine);
-	}
-}

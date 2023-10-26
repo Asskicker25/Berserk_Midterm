@@ -13,21 +13,17 @@ void Maze::Update()
 {
 }
 
-void Maze::AddToRenderer(Renderer& renderer, Shader* shader)
-{
-	mazeModel->LoadModel("Assets/Models/Berzerk_Level_Ouput.ply");
-	
-	renderer.AddModel(mazeModel, shader);
-}
-
-void Maze::AddToPhysics(PhysicsEngine& physicsEngine)
-{
-}
-
 void Maze::RemoveFromRenderer(Renderer& renderer)
 {
 }
 
 void Maze::RemoveFromPhysics(PhysicsEngine& physicsEngine)
 {
+}
+
+void Maze::AddToRendererAndPhysics(Renderer& renderer, Shader* shader, PhysicsEngine& physicsEngine)
+{
+	mazeModel->LoadModel("Assets/Models/Berzerk_Level_Ouput.ply");
+
+	renderer.AddModel(mazeModel, shader);
 }
