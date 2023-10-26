@@ -1,5 +1,6 @@
 #include "RobotsManager.h"
 #include "AbstractFactory/RobotFactory.h"
+#include "../Utilities/Random.h"
 
 class RobotsManager::PIMPL
 {
@@ -35,7 +36,12 @@ void RobotsManager::PIMPL::LoadRobots()
 	{
 		robot = (Robot*)robotFactory.CreateRobot();
 
-		robot->robotModel->transform.SetPosition(glm::vec3(5.0f + (10.0f * i), 5.0f  + (10.0f * i), 1.0f));
+		//int randomX = GetRandomIntNumber(0, 9);
+		int randomY = GetRandomIntNumber(0, 5);
+
+		robot->robotModel->transform.SetPosition(
+			glm::vec3(5.0f + (10.0f * i), 5.0f  + (10.0f * randomY), 1.0f)
+		);
 		robot->robotModel->transform.SetScale(glm::vec3(0.05f));
 
 		robot->robotModel->modelId = std::string("Robot " + std::to_string(i));

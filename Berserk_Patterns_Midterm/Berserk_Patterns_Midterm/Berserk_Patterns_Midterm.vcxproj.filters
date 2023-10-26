@@ -68,6 +68,9 @@
     <ClInclude Include="src\Robot\RobotsManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Utilities\Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\Models\Berzerk_Level_1196819.txt" />
@@ -77,5 +80,7 @@
     <None Include="Assets\Models\DefaultSphere.fbx" />
     <None Include="res\Shader\LightShader.shader" />
     <None Include="res\Shader\Shader.shader" />
+    <None Include="Assets\Models\Robot_Eye_Centre.ply" />
+    <None Include="Assets\Models\Robot_Eye_CentrePivot.ply" />
   </ItemGroup>
 </Project>

@@ -147,6 +147,7 @@
     <ClCompile Include="src\EntityManager\EntityManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Utilities\Random.h" />
     <ClInclude Include="src\Robot\RobotsManager.h" />
     <ClInclude Include="src\Robot\AbstractFactory\RobotFactory.h" />
     <ClInclude Include="src\Maze\Maze.h" />
@@ -163,6 +164,8 @@
   <ItemGroup>
     <None Include="Assets\Models\Berzerk_Level_Ouput.ply" />
     <None Include="Assets\Models\DefaultSphere.fbx" />
+    <None Include="Assets\Models\Robot_Eye_Centre.ply" />
+    <None Include="Assets\Models\Robot_Eye_CentrePivot.ply" />
     <None Include="res\Shader\LightShader.shader" />
     <None Include="res\Shader\Shader.shader" />
   </ItemGroup>
