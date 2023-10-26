@@ -137,7 +137,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Robot\RobotsManager.cpp" />
+    <ClCompile Include="src\Robot\AbstractFactory\RobotFactory.cpp" />
+    <ClCompile Include="src\Maze\Maze.cpp" />
+    <ClCompile Include="src\Robot\Robot.cpp" />
+    <ClCompile Include="src\Berserk.cpp" />
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\EntityManager\Entity.cpp" />
+    <ClCompile Include="src\EntityManager\EntityManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Robot\RobotsManager.h" />
+    <ClInclude Include="src\Robot\AbstractFactory\RobotFactory.h" />
+    <ClInclude Include="src\Maze\Maze.h" />
+    <ClInclude Include="src\Robot\AbstractFactory\iRobotFactory.h" />
+    <ClInclude Include="src\Robot\Robot.h" />
+    <ClInclude Include="src\Robot\RobotBase.h" />
+    <ClInclude Include="src\Berserk.h" />
+    <ClInclude Include="src\EntityManager\Entity.h" />
+    <ClInclude Include="src\EntityManager\EntityManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\Models\Berzerk_Level_1196819.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Models\Berzerk_Level_Ouput.ply" />
+    <None Include="Assets\Models\DefaultSphere.fbx" />
+    <None Include="res\Shader\LightShader.shader" />
+    <None Include="res\Shader\Shader.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
