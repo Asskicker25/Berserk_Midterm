@@ -58,7 +58,7 @@ void Berserk::PreRender()
 
 void Berserk::PostRender()
 {
-	entityManager.Update();
+	entityManager.Update(deltaTime);
 	physicsEngine.Update(deltaTime);
 }
 

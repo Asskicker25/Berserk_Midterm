@@ -3,6 +3,8 @@
 Maze::Maze()
 {
 	mazeModel = new Model();
+	pathFinding.Initialize(MAZE_X_SIZE * MAZE_CELL_SIZE, MAZE_Y_SIZE  * MAZE_CELL_SIZE);
+	pathFinding.GenerateGrid("Assets/Models/Berzerk_Level_1196819.txt");
 }
 
 bool Maze::RayCastMazeWall(glm::vec3& origin, glm::vec3& direction, float rayDist)
@@ -22,11 +24,28 @@ bool Maze::RayCastMazeWall(glm::vec3& origin, glm::vec3& direction, float rayDis
 	return false;
 }
 
+bool Maze::GetPathPoints(glm::vec2& startPoint, glm::vec2& endPoint, std::vector<glm::vec2>& pathPoints)
+{
+	pathPoints.clear();
+
+	std::pair<int, std::vector<glm::vec2>> points = pathFinding.PathPoints(startPoint, endPoint);
+	if (points.first == -1)
+	{
+		return false;
+	}
+	else
+	{
+		pathPoints = points.second;
+		return true;
+	}
+	return false;
+}
+
 void Maze::Start()
 {
 }
 
-void Maze::Update()
+void Maze::Update(float deltaTime)
 {
 }
 

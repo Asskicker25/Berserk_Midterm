@@ -20,7 +20,7 @@ public:
 	void AddToRendererAndPhysics(Renderer& renderer, Shader* shader, PhysicsEngine& physicsEngine);
 
 	void Start();
-	void Update();
+	void Update(float deltaTime);
 	void Destroy();
 };
 

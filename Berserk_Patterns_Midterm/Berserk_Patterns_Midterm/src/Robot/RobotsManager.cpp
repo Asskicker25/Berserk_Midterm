@@ -6,7 +6,7 @@
 class RobotsManager::PIMPL
 {
 public:
-	static const int NUM_OF_ROBOTS = 2;
+	static const int NUM_OF_ROBOTS = 10;
 	static const int ORIGIN_OFFSET = 5;
 	static constexpr float ROBOT_SCALE = 0.025f;
 
@@ -75,7 +75,7 @@ void RobotsManager::PIMPL::LoadRobots()
 		int randomX = GetRandomIntNumber(0, Maze::MAZE_X_SIZE - 1);
 		int randomY = GetRandomIntNumber(0, Maze::MAZE_Y_SIZE - 1);
 
-		if (i == 0)
+		/*if (i == 0)
 		{
 			robot->robotModel->transform.SetPosition(
 				glm::vec3(ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * 0),
@@ -86,7 +86,7 @@ void RobotsManager::PIMPL::LoadRobots()
 		else if (i == 1)
 		{
 			robot->robotModel->transform.SetPosition(
-				glm::vec3(ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * 1),
+				glm::vec3(ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * 1 ),
 					ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * 1),
 					1.0f)
 			);
@@ -98,7 +98,13 @@ void RobotsManager::PIMPL::LoadRobots()
 					ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * randomY),
 					1.0f)
 			);
-		}
+		}*/
+
+		robot->robotModel->transform.SetPosition(
+			glm::vec3(ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * i),
+				ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * randomY),
+				1.0f)
+		);
 
 		
 		robot->robotModel->transform.SetScale(glm::vec3(ROBOT_SCALE));

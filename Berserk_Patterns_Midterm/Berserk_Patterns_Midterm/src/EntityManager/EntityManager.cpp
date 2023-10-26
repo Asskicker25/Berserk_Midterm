@@ -30,11 +30,11 @@ void EntityManager::Start()
 	}
 }
 
-void EntityManager::Update()
+void EntityManager::Update(float deltaTime)
 {
 	for (it = listOfEntities.begin(); it != listOfEntities.end(); ++it)
 	{
-		it->second->Update();
+		it->second->Update(deltaTime);
 	}
 }
 

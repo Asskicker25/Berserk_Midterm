@@ -12,9 +12,13 @@ private:
 	Maze* maze;
 
 	int currentFriendValue;
-	int closeMinDistance = 10.0f;
+	int closeMinDistance = 2.0f;
+	int currentPathIndex = 0;
+
+	float positionReachedThreshold = 1.0f;
 
 	glm::vec3 currentColor = glm::vec3(1.0f, 0.0f, 0.0f);
+	std::vector<glm::vec2> pathPoints;
 
 public:
 	Robot();
@@ -23,6 +27,8 @@ public:
 	void SetBestFriend(Robot* robot, int& friendValue);
 	Robot* GetBestFriend();
 
+	void GetPathPoints(std::vector<glm::vec2>& pathPoints);
+
 	void SetMaze(Maze* maze);
 	void MoveTowardsRobot(Robot* robot);
 	void MoveTowardsFriend();
@@ -30,10 +36,11 @@ public:
 	bool IsDestinationReached();
 
 	void ChangeColor(glm::vec3 color);
+	void UpdateVelocity(float deltaTime);
 
 	// Inherited via RobotBase
 	void Start() override;
-	void Update() override;
+	void Update(float deltaTime) override;
 	void RemoveFromRenderer(Renderer& renderer) override;
 	void RemoveFromPhysics(PhysicsEngine& physicsEngine) override;
 	void AddToRendererAndPhysics(Renderer& renderer, Shader* shader, PhysicsEngine& physicsEngine) override;

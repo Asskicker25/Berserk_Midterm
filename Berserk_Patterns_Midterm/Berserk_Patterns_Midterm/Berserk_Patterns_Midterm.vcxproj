@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Maze\MazePathFinding.cpp" />
     <ClCompile Include="src\Robot\RobotBase.cpp" />
     <ClCompile Include="src\Robot\RobotsManager.cpp" />
     <ClCompile Include="src\Robot\AbstractFactory\RobotFactory.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="src\EntityManager\EntityManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Maze\MazePathFinding.h" />
     <ClInclude Include="src\Maze\MazeColliderSize.h" />
     <ClInclude Include="src\Utilities\Random.h" />
     <ClInclude Include="src\Robot\RobotsManager.h" />
