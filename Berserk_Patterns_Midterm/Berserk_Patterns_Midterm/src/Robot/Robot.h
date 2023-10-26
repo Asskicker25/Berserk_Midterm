@@ -40,10 +40,12 @@ private:
 public:
 	glm::vec3 robotInitSpawnPos = glm::vec3(0.0f, 0.0f, 0.0f);
 
+	Robot* holderForStartPos;
 	GameShapeIndicator* gameShape =  nullptr;
 
 	bool isReachedDestination = false;
 	bool isGiftGiven = false;
+	bool isAlone = false;
 
 	Robot();
 
@@ -57,6 +59,7 @@ public:
 	void SetMaze(Maze* maze);
 	void MoveTowardsRobot(Robot* robot);
 	void MoveTowardsFriend();
+	void MoveTowardsStartingPos();
 
 	void SetCurrentGame(RobotGame game);
 	void UpdateRobotGiftReceived(Robot* receivedFrom);

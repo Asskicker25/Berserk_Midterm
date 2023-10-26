@@ -34,6 +34,42 @@ Robot* Robot::GetDestinationRobot()
 	return destinationRobot;
 }
 
+void Robot::Update(float deltaTime)
+{
+	if (IsDestinationReached())
+	{
+		isReachedDestination = true;
+		//ChangeColor(glm::vec3(0.0f, 0.0f, 1.0f));
+	}
+
+	if (!isReachedDestination)
+	{
+		if (!isAlone)
+		{
+			timeStep += deltaTime;
+			if (timeStep > timerInterval)
+			{
+				GetPathPoints(pathPoints);
+				timeStep = 0;
+			}
+		}
+		else
+		{
+
+			std::cout << "Alone" << std::endl;
+		}
+		UpdateVelocity(deltaTime);
+	}
+	else
+	{
+		robotPhyObj->velocity = glm::vec3(0.0f);
+		timeStep = 0;
+	}
+
+	UpdateIndicatorPosition();
+
+}
+
 void Robot::UpdateIndicatorPosition()
 {
 	switch (currentGame)
@@ -185,33 +221,7 @@ void Robot::SetCurrentGame(RobotGame game)
 	}
 }
 
-void Robot::Update(float deltaTime)
-{
-	if (IsDestinationReached())
-	{
-		isReachedDestination = true;
-		//ChangeColor(glm::vec3(0.0f, 0.0f, 1.0f));
-	}
 
-	if (!isReachedDestination)
-	{
-		timeStep += deltaTime;
-		if (timeStep > timerInterval)
-		{
-			GetPathPoints(pathPoints);
-			timeStep = 0;
-		}
-		UpdateVelocity(deltaTime);
-	}
-	else
-	{
-		robotPhyObj->velocity = glm::vec3(0.0f);
-		timeStep = 0;
-	}
-	
-	UpdateIndicatorPosition();
-	
-}
 
 void Robot::RemoveFromRenderer(Renderer& renderer)
 {
@@ -236,6 +246,23 @@ void Robot::AddToRendererAndPhysics(Renderer& renderer, Shader* shader, PhysicsE
 	//ChangeColor(glm::vec3(0.0f, 0.0f, 1.0f));
 
 	renderer;
+}
+
+void Robot::MoveTowardsStartingPos()
+{
+	MoveTowardsRobot(holderForStartPos);
+	/*isReachedDestination = false;
+	isAlone = true;*/
+
+	/*currentPathIndex = 0;
+
+	glm::vec2 startPoint = glm::vec2(robotModel->transform.position.x, robotModel->transform.position.y);
+	glm::vec2 endPoint = glm::vec2(robotInitSpawnPos.x, robotInitSpawnPos.y);
+
+	startPoint = glm::round(startPoint);
+	endPoint = glm::round(endPoint);
+
+	maze->GetPathPoints(startPoint, endPoint, pathPoints);*/
 }
 
 void Robot::UpdateRobotGiftReceived(Robot* receivedFrom)

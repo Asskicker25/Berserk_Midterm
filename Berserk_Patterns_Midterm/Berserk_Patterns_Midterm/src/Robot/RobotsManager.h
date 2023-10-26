@@ -33,6 +33,7 @@ public:
 	void CheckIfAllFriendsFound(float deltaTime);
 	void CheckIfAllRobotsGameOver(float deltaTime);
 	void CheckIfGiftGiven(float deltaTime);
+	void CheckIfAllRobotsAreAlone(float deltaTime);
 
 };
 

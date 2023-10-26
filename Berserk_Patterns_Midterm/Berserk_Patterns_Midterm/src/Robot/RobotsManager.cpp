@@ -18,6 +18,7 @@ public:
 	glm::vec3 reachedGameArea = glm::vec3(0.0f, 1.0f, 1.0f);
 	glm::vec3 giftStateColor = glm::vec3(1.0f, 1.0f, 0.0f);
 	glm::vec3 afterGiftStateColor = glm::vec3(1.0f, 1.f, 1.0f);
+	glm::vec3 aloneColor = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	RobotFactory robotFactory;
 	EntityManager* entityManager;
@@ -26,6 +27,7 @@ public:
 	void AssignNewFriends();
 	void AssignGamesToRobot();
 	void AssignGiftsForRobots();
+	void AssignAloneForRobots();
 };
 
 enum RobotsManager::RobotsState
@@ -59,6 +61,7 @@ void RobotsManager::SetMaze(Maze* maze)
 void RobotsManager::SetRobotsState(RobotsState robotsState = FINDING_NEW_FRIENDS)
 {
 	this->robotsState = robotsState;
+
 	switch (robotsState)
 	{
 	case FINDING_NEW_FRIENDS:
@@ -71,6 +74,7 @@ void RobotsManager::SetRobotsState(RobotsState robotsState = FINDING_NEW_FRIENDS
 		pimpl->AssignGiftsForRobots();
 		break;
 	case ALONE:
+		pimpl->AssignAloneForRobots();
 		break;
 	}
 }
@@ -89,6 +93,7 @@ void RobotsManager::Update(float deltaTime)
 		CheckIfGiftGiven(deltaTime);
 		break;
 	case ALONE:
+		CheckIfAllRobotsAreAlone(deltaTime);
 		break;
 	}
 }
@@ -160,7 +165,7 @@ void RobotsManager::CheckIfAllRobotsGameOver(float deltaTime)
 
 void RobotsManager::CheckIfGiftGiven(float deltaTime)
 {
-
+	bool found = true;
 	for (Robot* robot : pimpl->listOfRobots)
 	{
 		if (robot->isReachedDestination)
@@ -172,18 +177,61 @@ void RobotsManager::CheckIfGiftGiven(float deltaTime)
 				robot->MoveTowardsFriend();
 				robot->ChangeColor(pimpl->afterGiftStateColor);
 			}
+			else
+			{
+				robot->ChangeColor(pimpl->newFriendReached);
+			}
+		}
+		else
+		{
+			if (robot->isGiftGiven)
+			{
+				found = false;
+			}
 		}
 	}
 
-	/*if (found)
+	if (found)
 	{
 		timeStep += deltaTime;
 		if (timeStep > intervalBetweenStates * 2.0f)
 		{
 			timeStep = 0;
-			SetRobotsState(GIVE_GIFTS);
+			for (Robot* robot : pimpl->listOfRobots)
+			{
+				robot->ChangeColor(pimpl->aloneColor);
+			}
+			SetRobotsState(ALONE);
 		}
-	}*/
+	}
+}
+
+void RobotsManager::CheckIfAllRobotsAreAlone(float deltaTime)
+{
+	bool alone = true;
+	for (Robot* robot : pimpl->listOfRobots)
+	{
+		if(!robot->isReachedDestination)
+		{
+			alone = false;
+			break;
+		}
+	}
+
+	if (alone)
+	{
+		timeStep += deltaTime;
+		if (timeStep > intervalBetweenStates * 2.0f)
+		{
+			timeStep = 0;
+			for (Robot* robot : pimpl->listOfRobots)
+			{
+				robot->ChangeColor(pimpl->defaultColor);
+			}
+
+			SetRobotsState(FINDING_NEW_FRIENDS);
+		}
+	}
 }
 
 void RobotsManager::PIMPL::LoadRobots()
@@ -224,6 +272,12 @@ void RobotsManager::PIMPL::LoadRobots()
 		robot->robotInitSpawnPos = glm::vec3(ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * i),
 			ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * randomY),
 			1.0f);
+
+		robot->holderForStartPos = (Robot*)robotFactory.CreateRobot();
+		
+		robot->holderForStartPos->robotPhyObj->Initialize(robot->holderForStartPos->robotModel,AABB, STATIC, TRIGGER);
+
+		robot->holderForStartPos->robotModel->transform.position = robot->robotInitSpawnPos;
 
 		robot->robotModel->transform.SetPosition(robot->robotInitSpawnPos);
 		
@@ -314,6 +368,15 @@ void RobotsManager::PIMPL::AssignGiftsForRobots()
 		std::cout << " Robot " << std::to_string(i) << " : " << std::to_string(i + 2) << std::endl;
 
 		continue;
+	}
+}
+
+void RobotsManager::PIMPL::AssignAloneForRobots()
+{
+	for (Robot* robot : listOfRobots)
+	{
+		robot->MoveTowardsStartingPos();
+		robot->ChangeColor(aloneColor);
 	}
 }
 
