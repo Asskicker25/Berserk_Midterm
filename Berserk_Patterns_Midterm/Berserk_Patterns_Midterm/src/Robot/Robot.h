@@ -6,16 +6,24 @@ class Robot : public RobotBase
 {
 private:
 	Robot* friendRobot;
+	Robot* destinationRobot;
 
 	int currentFriendValue;
+	int closeMinDistance = 3.0f;
 
 public:
 	Robot();
 
+	const int& GetFriendValue();
 	void SetBestFriend(Robot* robot, int& friendValue);
 	Robot* GetBestFriend();
 
-	const int& GetFriendValue();
+	void MoveTowardsRobot(Robot* robot);
+	void MoveTowardsFriend();
+
+	bool IsDestinationReached();
+
+	void ChangeColor(glm::vec3 color);
 
 	// Inherited via RobotBase
 	void Start() override;
