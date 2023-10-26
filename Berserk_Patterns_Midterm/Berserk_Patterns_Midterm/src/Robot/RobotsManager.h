@@ -19,6 +19,6 @@ public:
 
 	void AssignEntityManager(EntityManager& entityManager);
 	void LoadRobots();
-	void SetRobotsState(RobotsState& robotsState);
+	void SetRobotsState(RobotsState robotsState);
 };
 

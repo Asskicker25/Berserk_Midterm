@@ -4,6 +4,27 @@ Robot::Robot()
 {
 	robotModel = new Model();
 	robotPhyObj = new PhysicsObject();
+	friendRobot = nullptr;
+	currentFriendValue = 0;
+}
+
+void Robot::SetBestFriend(Robot* robot, int& friendValue)
+{
+	this->friendRobot = robot;
+
+	currentFriendValue = friendValue;
+
+	Debugger::Print(robotModel->modelId, currentFriendValue);
+}
+
+Robot* Robot::GetBestFriend()
+{
+	return friendRobot;
+}
+
+const int& Robot::GetFriendValue()
+{
+	return currentFriendValue;
 }
 
 void Robot::Start()

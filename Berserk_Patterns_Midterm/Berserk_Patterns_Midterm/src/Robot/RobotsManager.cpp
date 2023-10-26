@@ -40,13 +40,15 @@ void RobotsManager::AssignEntityManager(EntityManager& entityManager)
 void RobotsManager::LoadRobots()
 {
 	pimpl->LoadRobots();
+	SetRobotsState(FINDING_NEW_FRIENDS);
 }
 
-void RobotsManager::SetRobotsState(RobotsState& robotsState)
+void RobotsManager::SetRobotsState(RobotsState robotsState = FINDING_NEW_FRIENDS)
 {
 	switch (robotsState)
 	{
 	case FINDING_NEW_FRIENDS:
+		pimpl->AssignNewFriends();
 		break;
 	case PLAY_GAME:
 		break;
@@ -94,8 +96,11 @@ void RobotsManager::PIMPL::AssignNewFriends()
 	//std::shuffle(shuffledListOfRobots.begin(), shuffledListOfRobots.end(), gen);
 	std::shuffle(listOfRobots.begin(), listOfRobots.end(), gen);
 
-	for (int i = 0; i < NUM_OF_ROBOTS; i++)
+	for (int i = 0; i < NUM_OF_ROBOTS; i+=2)
 	{
+		int friendValue = GetRandomIntNumber(5, 10);
 
+		listOfRobots[i]->SetBestFriend(listOfRobots[i + 1], friendValue);
+		listOfRobots[i + 1]->SetBestFriend(listOfRobots[i], friendValue);
 	}
 }
