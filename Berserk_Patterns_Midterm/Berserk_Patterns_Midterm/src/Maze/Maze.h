@@ -8,6 +8,10 @@ private:
 	Model* mazeModel;
 
 public:
+	static const int MAZE_CELL_SIZE = 10;
+	static const int MAZE_X_SIZE = 10;
+	static const int MAZE_Y_SIZE = 6;
+
 	Maze();
 
 	// Inherited via Entity

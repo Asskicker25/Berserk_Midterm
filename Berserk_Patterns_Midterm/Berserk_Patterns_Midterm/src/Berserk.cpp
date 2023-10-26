@@ -7,7 +7,8 @@ void Berserk::SetUp()
 
 #pragma region Camera
 	
-	cameraPos = glm::vec3(30.0f, 30.0f, 100.0f);
+	camera.InitializeCamera(PERSPECTIVE, windowWidth, windowHeight, 0.1f, 300.0f, 45.0f);
+	cameraPos = glm::vec3(50.0f, 30.0f, 100.0f);
 
 #pragma endregion
 

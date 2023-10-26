@@ -1,11 +1,14 @@
 #include "RobotsManager.h"
 #include "AbstractFactory/RobotFactory.h"
 #include "../Utilities/Random.h"
+#include "../Maze/Maze.h"
 
 class RobotsManager::PIMPL
 {
 public:
 	static const int NUM_OF_ROBOTS = 10;
+	static const int ORIGIN_OFFSET = 5;
+	static constexpr float ROBOT_SCALE = 0.025f;
 
 	std::vector<Robot*> listOfRobots;
 
@@ -17,6 +20,7 @@ public:
 
 RobotsManager::RobotsManager() : pimpl { new PIMPL()}
 {
+
 }
 
 void RobotsManager::AssignEntityManager(EntityManager& entityManager)
@@ -36,13 +40,15 @@ void RobotsManager::PIMPL::LoadRobots()
 	{
 		robot = (Robot*)robotFactory.CreateRobot();
 
-		//int randomX = GetRandomIntNumber(0, 9);
-		int randomY = GetRandomIntNumber(0, 5);
+		int randomX = GetRandomIntNumber(0, Maze::MAZE_X_SIZE - 1);
+		int randomY = GetRandomIntNumber(0, Maze::MAZE_Y_SIZE - 1);
 
 		robot->robotModel->transform.SetPosition(
-			glm::vec3(5.0f + (10.0f * i), 5.0f  + (10.0f * randomY), 1.0f)
+			glm::vec3(ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * randomX),
+				ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * randomY),
+				1.0f)
 		);
-		robot->robotModel->transform.SetScale(glm::vec3(0.05f));
+		robot->robotModel->transform.SetScale(glm::vec3(ROBOT_SCALE));
 
 		robot->robotModel->modelId = std::string("Robot " + std::to_string(i));
 
