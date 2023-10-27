@@ -40,7 +40,7 @@ private:
 	//The offset of the game indicator
 	//Sphere : Eucher
 	//Square : Exploding kitten
-	glm::vec3 indicatorOffset = glm::vec3(0.0f, 2.5f, 0.0f);
+	glm::vec3 indicatorOffset = glm::vec3(0.0f, 2.5f, 1.5f);
 
 	float timeStep = 0;
 	float timerInterval = 1.0f;
@@ -51,7 +51,6 @@ private:
 public:
 	glm::vec3 robotInitSpawnPos = glm::vec3(0.0f, 0.0f, 0.0f);
 
-	Robot* holderForStartPos;
 	GameShapeIndicator* gameShape =  nullptr;
 
 	bool isReachedDestination = false;

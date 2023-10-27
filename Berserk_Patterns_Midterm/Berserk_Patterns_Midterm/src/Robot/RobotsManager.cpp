@@ -141,12 +141,6 @@ void RobotsManager::PIMPL::LoadRobots()
 			ORIGIN_OFFSET + (Maze::MAZE_CELL_SIZE * randomY),
 			1.0f);
 
-		robot->holderForStartPos = (Robot*)robotFactory.CreateRobot();
-
-		robot->holderForStartPos->robotPhyObj->Initialize(robot->holderForStartPos->robotModel, AABB, STATIC, TRIGGER);
-
-		robot->holderForStartPos->robotModel->transform.position = robot->robotInitSpawnPos;
-
 		robot->robotModel->transform.SetPosition(robot->robotInitSpawnPos);
 
 		robot->robotModel->transform.SetScale(glm::vec3(ROBOT_SCALE));
@@ -261,12 +255,16 @@ void RobotsManager::PIMPL::AssignGiftsForRobots()
 		{
 			listOfRobots[i]->MoveTowardsRobot(listOfRobots[i - (listOfRobots.size() - 2)]);
 
-			std::cout << " Robot " << std::to_string(i) << " : " << std::to_string(i - (listOfRobots.size() - 2)) << std::endl;
+			Debugger::Print("Robot " + std::to_string(i) + " : " + std::to_string(i - (listOfRobots.size() - 2)));
+			//std::cout << " Robot " << std::to_string(i) << " : " << std::to_string(i - (listOfRobots.size() - 2)) << std::endl;
 			continue;
 		}
 
 		listOfRobots[i]->MoveTowardsRobot(listOfRobots[i + 2]);
-		std::cout << " Robot " << std::to_string(i) << " : " << std::to_string(i + 2) << std::endl;
+		
+		Debugger::Print("Robot " + std::to_string(i) + " : " + std::to_string(i + 2));
+
+		//std::cout << " Robot " << std::to_string(i) << " : " << std::to_string(i + 2) << std::endl;
 
 		continue;
 	}

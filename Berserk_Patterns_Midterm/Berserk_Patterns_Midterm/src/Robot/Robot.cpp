@@ -75,11 +75,6 @@ void Robot::Update(float deltaTime)
 				timeStep = 0;
 			}
 		}
-		else
-		{
-
-			std::cout << "Alone" << std::endl;
-		}
 		UpdateVelocity(deltaTime);
 	}
 	else
@@ -132,6 +127,7 @@ void Robot::MoveTowardsRobot(Robot* robot)
 {
 	destinationRobot = robot;
 	isReachedDestination = false;
+	isAlone = false;
 	GetPathPoints(pathPoints);
 }
 
@@ -151,11 +147,30 @@ bool Robot::IsDestinationReached()
 		return false;
 	}
 
-	glm::vec3 diff = destinationRobot->robotModel->transform.position - robotModel->transform.position;
+	glm::vec3 diff = glm::vec3(1.0f);
+	float distanceToCheck;
+
+
+	if (isAlone)
+	{
+		diff = glm::vec3(pathPoints[pathPoints.size() - 1].x, pathPoints[pathPoints.size() - 1].y, 1.0f)
+			- robotModel->transform.position;
+
+		distanceToCheck = 1.0f;
+	}
+	else
+	{
+		diff = destinationRobot->robotModel->transform.position - robotModel->transform.position;
+		distanceToCheck = closeMinDistance;
+
+	}
 
 	float sqDistance = glm::dot(diff, diff);
 
-	if (sqDistance <= (closeMinDistance * closeMinDistance))
+
+
+
+	if (sqDistance <= (distanceToCheck * distanceToCheck))
 	{
 		if (isAlone)
 		{
@@ -267,9 +282,7 @@ void Robot::AddToRendererAndPhysics(Renderer& renderer, Shader* shader, PhysicsE
 //Called to move the robot to the starting position
 void Robot::MoveTowardsStartingPos()
 {
-	MoveTowardsRobot(holderForStartPos);
-
-	/*isReachedDestination = false;
+	isReachedDestination = false;
 	isAlone = true;
 
 	currentPathIndex = 0;
@@ -280,7 +293,7 @@ void Robot::MoveTowardsStartingPos()
 	startPoint = glm::round(startPoint);
 	endPoint = glm::round(endPoint);
 
-	maze->GetPathPoints(startPoint, endPoint, pathPoints);*/
+	maze->GetPathPoints(startPoint, endPoint, pathPoints);
 }
 
 //Takes a random friendship value and updates the best friend if it is greater

@@ -8,7 +8,7 @@ public :
 	Model* robotModel = nullptr;
 	PhysicsObject* robotPhyObj = nullptr;
 
-	float speed = 15.0f;
+	float speed = 10.0f;
 
 	// Inherited via Entity
 	virtual void Start() = 0;

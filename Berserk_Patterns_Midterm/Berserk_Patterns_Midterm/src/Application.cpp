@@ -8,7 +8,7 @@ int main()
 	Berserk berserkWindow;
 
 	//You can toggle the message printing in the console 
-	Debugger::print = true;
+	Debugger::print = false;
 
 	//Creates a glfw window with the specified resoluition
 	berserkWindow.InitializeWindow(1366, 728);
