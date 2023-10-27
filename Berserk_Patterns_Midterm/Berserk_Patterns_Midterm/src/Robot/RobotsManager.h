@@ -8,32 +8,25 @@ class RobotsManager
 {
 private:
 
+	//Pointer implementation used to abstract private calculations
 	class PIMPL;
 	PIMPL* pimpl;
 
-	float timeStep = 0;
-
-	float intervalBetweenStates = 2.0f;
-
-
 public:
+	//Forward declaration of the enum RobotState 
+	//Has the game states for each question
 	enum RobotsState;
-
-	RobotsState robotsState;
 
 	RobotsManager();
 
+	//Assigning entity mangagert and maze to the robots that have been created
 	void AssignEntityManager(EntityManager& entityManager);
 	void SetMaze(Maze* maze);
+	
+	//Called to load the robots in their respective position 
 	void LoadRobots();
-	void SetRobotsState(RobotsState robotsState);
 
 	void Update(float deltaTime);
-
-	void CheckIfAllFriendsFound(float deltaTime);
-	void CheckIfAllRobotsGameOver(float deltaTime);
-	void CheckIfGiftGiven(float deltaTime);
-	void CheckIfAllRobotsAreAlone(float deltaTime);
 
 };
 

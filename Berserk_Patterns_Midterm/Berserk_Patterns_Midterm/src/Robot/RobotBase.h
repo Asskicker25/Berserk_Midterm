@@ -5,10 +5,10 @@
 class RobotBase : public Entity
 {
 public :
-	Model* robotModel;
-	PhysicsObject* robotPhyObj;
+	Model* robotModel = nullptr;
+	PhysicsObject* robotPhyObj = nullptr;
 
-	float speed = 5.0f;
+	float speed = 15.0f;
 
 	// Inherited via Entity
 	virtual void Start() = 0;
