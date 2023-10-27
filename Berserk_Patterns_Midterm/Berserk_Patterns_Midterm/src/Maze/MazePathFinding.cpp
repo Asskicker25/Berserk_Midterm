@@ -65,9 +65,9 @@ void MazePathFinding::GenerateGrid(const std::string& path)
                 newGrid[i + 2][j] = 0;
                 
             }
-            std::cout << newGrid[i][j];
+            //std::cout << newGrid[i][j];
         }
-        std::cout << std::endl;
+        //std::cout << std::endl;
 
     }
 

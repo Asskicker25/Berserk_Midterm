@@ -89,7 +89,6 @@ void Robot::Update(float deltaTime)
 	}
 
 	UpdateIndicatorPosition();
-
 }
 
 //Updates the position of the current game indicator on top of the robot head
